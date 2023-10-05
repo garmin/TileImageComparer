@@ -1,4 +1,4 @@
-#include "SSIMImageComparator.hpp"
+#include "demoalgorithms/SSIMImageComparator.hpp"
 #include "Utils.hpp"
 
 #include <iostream>

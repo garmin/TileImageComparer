@@ -99,17 +99,17 @@ FetchContent_MakeAvailable(argparse opencv)
 
 set(Source_Files
     "sources/main.cpp"
+    "sources/Utils.cpp"
     "sources/DifferencesFinder.cpp"
     "sources/BlobDetect.cpp"
-    "sources/SSIMImageComparator.cpp"
     "sources/CPSImageComparator.cpp"
-    "sources/MSEImageComparator.cpp"
-    "sources/PSNRImageComparator.cpp"
-    "sources/HistogramImageComparator.cpp"
-    "sources/PixelWiseImageComparator.cpp"
-    "sources/CVBlobsImageComparator.cpp"
-    "sources/WhiteLineImageComparator.cpp"
-    "sources/Utils.cpp"
+    "sources/demoalgorithms/SSIMImageComparator.cpp"
+    "sources/demoalgorithms/MSEImageComparator.cpp"
+    "sources/demoalgorithms/PSNRImageComparator.cpp"
+    "sources/demoalgorithms/HistogramImageComparator.cpp"
+    "sources/demoalgorithms/PixelWiseImageComparator.cpp"
+    "sources/demoalgorithms/CVBlobsImageComparator.cpp"
+    "sources/demoalgorithms/WhiteLineImageComparator.cpp"
 )
 source_group("Source Files" FILES ${Source_Files})
 

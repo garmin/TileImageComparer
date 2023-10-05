@@ -1,4 +1,4 @@
-#include "PSNRImageComparator.hpp"
+#include "demoalgorithms/PSNRImageComparator.hpp"
 #include "Utils.hpp"
 
 #include <iostream>

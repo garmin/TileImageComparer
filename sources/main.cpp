@@ -16,13 +16,13 @@
 #include "Utils.hpp"
 #include "IImageComparator.hpp"
 #include "CPSImageComparator.hpp"
-#include "SSIMImageComparator.hpp"
-#include "MSEImageComparator.hpp"
-#include "PSNRImageComparator.hpp"
-#include "PixelWiseImageComparator.hpp"
-#include "HistogramImageComparator.hpp"
-#include "CVBlobsImageComparator.hpp"
-#include "WhiteLineImageComparator.hpp"
+#include "demoalgorithms/SSIMImageComparator.hpp"
+#include "demoalgorithms/MSEImageComparator.hpp"
+#include "demoalgorithms/PSNRImageComparator.hpp"
+#include "demoalgorithms/PixelWiseImageComparator.hpp"
+#include "demoalgorithms/HistogramImageComparator.hpp"
+#include "demoalgorithms/CVBlobsImageComparator.hpp"
+#include "demoalgorithms/WhiteLineImageComparator.hpp"
 
 ComparisonThresholds kDefaultThresholds{ 0.05,    // 5% of the area
                                          0.025};  // 2.5% of the edge

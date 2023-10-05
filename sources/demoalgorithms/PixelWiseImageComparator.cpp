@@ -1,4 +1,4 @@
-#include "PixelWiseImageComparator.hpp"
+#include "demoalgorithms/PixelWiseImageComparator.hpp"
 #include "Utils.hpp"
 
 #include <iostream>

@@ -1,4 +1,4 @@
-#include "MSEImageComparator.hpp"
+#include "demoalgorithms/MSEImageComparator.hpp"
 #include "Utils.hpp"
 
 #include <iostream>

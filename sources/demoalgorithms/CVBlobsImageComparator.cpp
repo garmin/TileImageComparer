@@ -1,4 +1,4 @@
-#include "CVBlobsImageComparator.hpp"
+#include "demoalgorithms/CVBlobsImageComparator.hpp"
 #include "Utils.hpp"
 
 #include <iostream>

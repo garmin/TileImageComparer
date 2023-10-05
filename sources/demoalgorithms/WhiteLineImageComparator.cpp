@@ -1,4 +1,4 @@
-#include "WhiteLineImageComparator.hpp"
+#include "demoalgorithms/WhiteLineImageComparator.hpp"
 #include "Utils.hpp"
 
 #include <iostream>

@@ -1,4 +1,4 @@
-#include "HistogramImageComparator.hpp"
+#include "demoalgorithms/HistogramImageComparator.hpp"
 #include "Utils.hpp"
 
 #include <iostream>
