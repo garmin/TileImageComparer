@@ -1,0 +1,38 @@
+{
+    "version": "0.2.0",
+    "configurations": [{
+        "name": "ComparerPlayground",
+        "type": "lldb",
+        "request": "launch",
+        "program": "${workspaceFolder}/build/bin/ComparerPlayground",
+        "symbolSearchPath": "${workspaceFolder}/build/CMakeFiles/ComparerPlayground.dir/sources",
+        "externalConsole": true,
+        "cwd": "${workspaceFolder}",
+        "logging": {
+            "moduleLoad": false,
+            "trace": true
+        },
+        "visualizerFile": "${workspaceFolder}/my.natvis",
+        "showDisplayString": true,
+        "args": ["-f1", "${workspaceFolder}/images/sat1.png", "-f2", "${workspaceFolder}/images/sat1.jpeg"],
+        "MIMode": "lldb",
+        "preLaunchTask": "ComparePlayGround build"
+    }, {
+        "name": "compareWithArtifacts",
+        "type": "lldb",
+        "request": "launch",
+        "program": "${workspaceFolder}/build/bin/ComparerPlayground",
+        "symbolSearchPath": "${workspaceFolder}/build/CMakeFiles/ComparerPlayground.dir/sources",
+        "externalConsole": true,
+        "cwd": "${workspaceFolder}",
+        "logging": {
+            "moduleLoad": false,
+            "trace": true
+        },
+        "visualizerFile": "${workspaceFolder}/my.natvis",
+        "showDisplayString": true,
+        "args": ["-f1", "${workspaceFolder}/images/sat1.png", "-f2", "${workspaceFolder}/images/sat1_r2.png"],
+        "MIMode": "lldb",
+        "preLaunchTask": "ComparePlayGround build"
+    }]
+}
