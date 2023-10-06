@@ -2,3 +2,4 @@ ComparerPlayground
 build/*
 intermediates/*
 result.png
+trainingSet/*

@@ -23,6 +23,7 @@
 #include "demoalgorithms/HistogramImageComparator.hpp"
 #include "demoalgorithms/CVBlobsImageComparator.hpp"
 #include "demoalgorithms/WhiteLineImageComparator.hpp"
+#include "demoalgorithms/SVMImageComparator.hpp"
 
 ComparisonThresholds kDefaultThresholds{ 0.05,    // 5% of the area
                                          0.025};  // 2.5% of the edge
@@ -122,6 +123,8 @@ int main(int argc, char *argv[]) {
         comparator = std::make_unique<CVBlobsImageComparator>();
     } else if (algorithm == "line" || algorithm == "whiteline" || algorithm == "lines") {
         comparator = std::make_unique<WhiteLineImageComparator>();
+    } else if (algorithm == "svm" || algorithm == "SVM" || algorithm == "ml" || algorithm == "ML") {
+        comparator = std::make_unique<SVMImageComparator>();
     } else {
         // Custom Algorithm here
         comparator = std::make_unique<CPSImageComparator>(kMaxBlobSize, 1, kImageCompareConstant, kDefaultThresholds);

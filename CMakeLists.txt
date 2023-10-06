@@ -23,7 +23,7 @@ set(BUILD_opencv_js_bindings_generator OFF)
 set(WITH_PROTOBUF OFF)
 set(BUILD_opencv_java_bindings_generator OFF)
 set(BUILD_opencv_dnn OFF)
-set(BUILD_opencv_ml OFF)
+set(BUILD_opencv_ml ON)
 set(BUILD_opencv_apps OFF)
 set(BUILD_opencv_features2d ON)
 set(BUILD_opencv_objc_bindings_generator OFF)
@@ -42,34 +42,7 @@ set(BUILD_JPEG OFF)
 set(BUILD_SHARED_LIBS OFF)
 set(BUILD_opencv_stitching OFF)
 set(BUILD_PNG ON)
-set(BUILD_opencv_videoio OFF)
-set(BUILD_opencv_flann OFF)
-set(BUILD_ZLIB OFF)
-set(BUILD_opencv_js_bindings_generator OFF)
-set(WITH_PROTOBUF OFF)
-set(BUILD_opencv_java_bindings_generator OFF)
-set(BUILD_opencv_dnn OFF)
-set(BUILD_opencv_ml OFF)
-set(BUILD_opencv_apps OFF)
-set(BUILD_opencv_objc_bindings_generator OFF)
-set(BUILD_opencv_objdetect OFF)
-set(BUILD_ITT OFF)
-set(BUILD_opencv_python_bindings_generator OFF)
-set(BUILD_opencv_photo OFF)
-set(BUILD_JAVA OFF)
-set(BUILD_JASPER OFF)
-set(WITH_OPENEXR OFF)
-set(BUILD_IPP_IW ON)
-set(WITH_OPENCLAMDFFT OFF)
-set(WITH_OPENCLAMDBLAS OFF)
-set(BUILD_opencv_python_tests OFF)
-set(BUILD_PERF_TESTS OFF)
-set(BUILD_JPEG OFF)
-set(BUILD_SHARED_LIBS OFF)
-set(BUILD_opencv_stitching OFF)
-set(BUILD_PNG ON)
 set(BUILD_opencv_imgcodecs ON)
-set(BUILD_PROTOBUF OFF)
 set(BUILD_opencv_video OFF)
 set(BUILD_opencv_calib3d OFF)
 set(BUILD_TIFF OFF)
@@ -110,11 +83,12 @@ set(Source_Files
     "sources/demoalgorithms/PixelWiseImageComparator.cpp"
     "sources/demoalgorithms/CVBlobsImageComparator.cpp"
     "sources/demoalgorithms/WhiteLineImageComparator.cpp"
+    "sources/demoalgorithms/SVMImageComparator.cpp"
 )
 source_group("Source Files" FILES ${Source_Files})
 
 add_executable(${PROJECT_NAME} ${Source_Files})
-target_link_libraries(${PROJECT_NAME} PRIVATE argparse opencv_core opencv_imgcodecs opencv_highgui opencv_imgproc opencv_features2d)
+target_link_libraries(${PROJECT_NAME} PRIVATE argparse opencv_core opencv_imgcodecs opencv_highgui opencv_imgproc opencv_features2d opencv_ml)
 target_include_directories(${PROJECT_NAME} PRIVATE "include")
 target_include_directories(${PROJECT_NAME} PRIVATE
         ${OPENCV_CONFIG_FILE_INCLUDE_DIR}
@@ -123,4 +97,5 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         ${OPENCV_MODULE_opencv_highgui_LOCATION}/include
         ${OPENCV_MODULE_opencv_imgproc_LOCATION}/include
         ${OPENCV_MODULE_opencv_features2d_LOCATION}/include
+        ${OPENCV_MODULE_opencv_ml_LOCATION}/include
 )
