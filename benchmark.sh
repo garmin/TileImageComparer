@@ -34,7 +34,7 @@ for subdir in $subdirs; do
             fi
         done <<< "$image_files"
         
-        output=$(./ComparerPlayground -f1 $image1 -f2 $image2 -s 1024 -b --algorithm hist)
+        output=$(./ComparerPlayground -f1 $image1 -f2 $image2 -s 1024 -b --algorithm $1)
         if [ $? -eq 0 ]; then
             correct=$(expr $correct + 1)
         fi
