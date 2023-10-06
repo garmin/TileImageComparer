@@ -33,8 +33,6 @@ cv::Mat SVMImageComparator::getResult() const {
 double SVMImageComparator::compareImages(cv::Mat& image1, cv::Mat& image2) {
     cv::Mat featureVector;
     cv::hconcat(extractFeatures(image1), extractFeatures(image2), featureVector);
-    std::cout << featureVector.cols << std::endl;
-    std::cout << featureVector.type() << std::endl;
     float similarityScore = this->model->predict(featureVector);
     this->result = featureVector;
     return similarityScore;
