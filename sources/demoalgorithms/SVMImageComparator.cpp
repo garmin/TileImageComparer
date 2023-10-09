@@ -9,7 +9,7 @@
 #include <opencv2/ml.hpp>
 
 SVMImageComparator::SVMImageComparator() {
-    std::cout << "The SVM comparator..." << std::endl;
+    std::cout << "The SVM comparator trains/loads an SVM that attempts to discriminate between the images, looking for differences." << std::endl;
     this->model = createModel();
     train(model);
 }
@@ -26,7 +26,7 @@ Result SVMImageComparator::compare(const cv::Mat& img1, const cv::Mat& img2) {
 void SVMImageComparator::dumpImages() {}
 
 cv::Mat SVMImageComparator::getResult() const {
-    std::cout << "In the results image..." << std::endl;
+    std::cout << "In the results image are highligted the extracted features." << std::endl;
     return this->result;
 }
 
@@ -52,7 +52,7 @@ cv::Mat SVMImageComparator::extractFeatures(cv::Mat& image) {
     cv::cvtColor(image, res, cv::COLOR_BGR2GRAY);
     cv::resize(res, res,
                 cv::Size(512, 512),
-                cv::INTER_LINEAR);
+                cv::INTER_NEAREST_EXACT);
     res = res.reshape(1, 1);
     res.convertTo(res, CV_32F);
     return res;
