@@ -34,7 +34,7 @@ double SVMImageComparator::compareImages(cv::Mat& image1, cv::Mat& image2) {
     cv::Mat featureVector;
     cv::hconcat(extractFeatures(image1), extractFeatures(image2), featureVector);
     float similarityScore = this->model->predict(featureVector);
-    this->result = featureVector;
+    this->result = featureVector.reshape(1, 512);
     return similarityScore;
 }
 
@@ -42,7 +42,7 @@ cv::Ptr<cv::ml::SVM> SVMImageComparator::createModel() {
     cv::Ptr<cv::ml::SVM> model = cv::ml::SVM::create();
     model->setType(cv::ml::SVM::C_SVC);
     model->setKernel(cv::ml::SVM::RBF);
-    model->setTermCriteria(cv::TermCriteria(cv::TermCriteria::MAX_ITER, 100, 1e-6));
+    model->setTermCriteria(cv::TermCriteria(cv::TermCriteria::MAX_ITER, 500, 1e-6));
 
     return model;
 }
@@ -51,8 +51,9 @@ cv::Mat SVMImageComparator::extractFeatures(cv::Mat& image) {
     cv::Mat res;
     cv::cvtColor(image, res, cv::COLOR_BGR2GRAY);
     cv::resize(res, res,
-                cv::Size(512, 1),
+                cv::Size(512, 512),
                 cv::INTER_LINEAR);
+    res = res.reshape(1, 1);
     res.convertTo(res, CV_32F);
     return res;
 }
@@ -61,10 +62,12 @@ void SVMImageComparator::train(cv::Ptr<cv::ml::SVM> model) {
     // Define the path to the directory containing your labeled image pairs
     std::string modelFile = "svm_model.xml";
 
-    if (std::filesystem::exists(modelFile) && cv::ml::SVM::load(modelFile.c_str()) != nullptr) {
-        std::cout << "Loading pre-trained model from " << modelFile << "..." << std::endl;
-        this->model = cv::ml::SVM::load(modelFile.c_str());
-    } else {
+    if (std::filesystem::exists(modelFile)) {
+        std::cout << "Attempting to load the pre-trained model from " << modelFile << "..." << std::endl;
+        auto tempModel = cv::ml::SVM::load(modelFile.c_str());
+        if (tempModel != nullptr) this->model = tempModel;
+    } 
+    if (this->model == nullptr) {
         std::string datasetPath = "trainingSet";
 
         // Create data structures for features and labels
