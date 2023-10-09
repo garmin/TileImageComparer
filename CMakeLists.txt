@@ -27,7 +27,7 @@ set(BUILD_opencv_ml ON)
 set(BUILD_opencv_apps OFF)
 set(BUILD_opencv_features2d ON)
 set(BUILD_opencv_objc_bindings_generator OFF)
-set(BUILD_opencv_objdetect OFF)
+set(BUILD_opencv_objdetect ON)
 set(BUILD_ITT OFF)
 set(BUILD_opencv_python_bindings_generator OFF)
 set(BUILD_opencv_photo OFF)
@@ -44,7 +44,8 @@ set(BUILD_opencv_stitching OFF)
 set(BUILD_PNG ON)
 set(BUILD_opencv_imgcodecs ON)
 set(BUILD_opencv_video OFF)
-set(BUILD_opencv_calib3d OFF)
+set(BUILD_opencv_calib3d ON)
+set(BUILD_opencv_flann ON)
 set(BUILD_TIFF OFF)
 set(BUILD_TESTS OFF)
 set(BUILD_opencv_gapi OFF)
@@ -54,7 +55,51 @@ set(BUILD_opencv_ts OFF)
 set(BUILD_PACKAGE OFF)
 set(BUILD_WEBP ON)
 set(ENABLE_LIBJPEG_TURBO_SIMD OFF)
+
 set(OPENCV_ENABLE_NONFREE ON)
+set(OPENCV_EXTRA_MODULES_PATH ../opencv_contrib-src/modules/)
+set(BUILD_opencv_aruco  OFF)
+set(BUILD_opencv_bgsegm  OFF)
+set(BUILD_opencv_bioinspired  OFF)
+set(BUILD_opencv_ccalib  OFF)
+set(BUILD_opencv_core ON)
+set(BUILD_opencv_datasets  OFF)
+set(BUILD_opencv_dnn_objdetect  OFF)
+set(BUILD_opencv_dnn_superres  OFF)
+set(BUILD_opencv_dpm  OFF)
+set(BUILD_opencv_face  OFF)
+set(BUILD_opencv_freetype  OFF)
+set(BUILD_opencv_fuzzy  OFF)
+set(BUILD_opencv_hfs  OFF)
+set(BUILD_opencv_highgui ON)
+set(BUILD_opencv_img_hash  OFF)
+set(BUILD_opencv_imgproc ON)
+set(BUILD_opencv_intensity_transform  OFF)
+set(BUILD_opencv_js OFF)
+set(BUILD_opencv_line_descriptor  OFF)
+set(BUILD_opencv_mcc  OFF)
+set(BUILD_opencv_optflow  OFF)
+set(BUILD_opencv_phase_unwrapping  OFF)
+set(BUILD_opencv_plot  OFF)
+set(BUILD_opencv_quality  OFF)
+set(BUILD_opencv_rapid  OFF)
+set(BUILD_opencv_reg  OFF)
+set(BUILD_opencv_rgbd  OFF)
+set(BUILD_opencv_saliency  OFF)
+set(BUILD_opencv_shape  OFF)
+set(BUILD_opencv_stereo  OFF)
+set(BUILD_opencv_structured_light  OFF)
+set(BUILD_opencv_superres  OFF)
+set(BUILD_opencv_surface_matching  OFF)
+set(BUILD_opencv_text  OFF)
+set(BUILD_opencv_tracking  OFF)
+set(BUILD_opencv_videostab  OFF)
+set(BUILD_opencv_wechat_qrcode  OFF)
+set(BUILD_opencv_world OFF)
+set(BUILD_opencv_xfeatures2d ON)
+set(BUILD_opencv_ximgproc ON)
+set(BUILD_opencv_xobjdetect  OFF)
+set(BUILD_opencv_xphoto  OFF)
 
 FetchContent_Declare(
     argparse
@@ -65,10 +110,16 @@ FetchContent_Declare(
 FetchContent_Declare(
     opencv
     GIT_REPOSITORY https://github.com/opencv/opencv.git
-    GIT_TAG        4.7.0
+    GIT_TAG        4.8.1
 )
 
-FetchContent_MakeAvailable(argparse opencv)
+FetchContent_Declare(
+    opencv_contrib
+    GIT_REPOSITORY https://github.com/opencv/opencv_contrib.git
+    GIT_TAG        4.8.1
+)
+
+FetchContent_MakeAvailable(argparse opencv opencv_contrib)
 
 set(Source_Files
     "sources/main.cpp"
@@ -89,7 +140,7 @@ set(Source_Files
 source_group("Source Files" FILES ${Source_Files})
 
 add_executable(${PROJECT_NAME} ${Source_Files})
-target_link_libraries(${PROJECT_NAME} PRIVATE argparse opencv_core opencv_imgcodecs opencv_highgui opencv_imgproc opencv_features2d opencv_ml)
+target_link_libraries(${PROJECT_NAME} PRIVATE argparse opencv_core opencv_imgcodecs opencv_highgui opencv_imgproc opencv_features2d opencv_ml opencv_xfeatures2d)
 target_include_directories(${PROJECT_NAME} PRIVATE "include")
 target_include_directories(${PROJECT_NAME} PRIVATE
         ${OPENCV_CONFIG_FILE_INCLUDE_DIR}
@@ -99,4 +150,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         ${OPENCV_MODULE_opencv_imgproc_LOCATION}/include
         ${OPENCV_MODULE_opencv_features2d_LOCATION}/include
         ${OPENCV_MODULE_opencv_ml_LOCATION}/include
+        ${OPENCV_MODULE_opencv_flann_LOCATION}/include
+        ${OPENCV_MODULE_opencv_xfeatures2d_LOCATION}/include
 )

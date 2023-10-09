@@ -7,9 +7,13 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/ml.hpp>
+#include <opencv2/xfeatures2d.hpp>
 
 SVMImageComparator::SVMImageComparator() {
     std::cout << "The SVM comparator trains/loads an SVM that attempts to discriminate between the images, looking for differences." << std::endl;
+
+    this->resizeDim = 256;
+
     this->model = createModel();
     train(model);
 }
@@ -34,7 +38,7 @@ double SVMImageComparator::compareImages(cv::Mat& image1, cv::Mat& image2) {
     cv::Mat featureVector;
     cv::hconcat(extractFeatures(image1), extractFeatures(image2), featureVector);
     float similarityScore = this->model->predict(featureVector);
-    this->result = featureVector.reshape(1, 512);
+    this->result = featureVector.reshape(1, 100);
     return similarityScore;
 }
 
@@ -42,17 +46,27 @@ cv::Ptr<cv::ml::SVM> SVMImageComparator::createModel() {
     cv::Ptr<cv::ml::SVM> model = cv::ml::SVM::create();
     model->setType(cv::ml::SVM::C_SVC);
     model->setKernel(cv::ml::SVM::RBF);
-    model->setTermCriteria(cv::TermCriteria(cv::TermCriteria::MAX_ITER, 500, 1e-6));
+    model->setTermCriteria(cv::TermCriteria(cv::TermCriteria::MAX_ITER, 100, 1e-6));
 
     return model;
 }
 
 cv::Mat SVMImageComparator::extractFeatures(cv::Mat& image) {
+    cv::Ptr<cv::xfeatures2d::SURF> surf = cv::xfeatures2d::SURF::create(400);
     cv::Mat res;
-    cv::cvtColor(image, res, cv::COLOR_BGR2GRAY);
-    cv::resize(res, res,
-                cv::Size(512, 512),
-                cv::INTER_NEAREST_EXACT);
+    cv::cvtColor(image, image, cv::COLOR_BGR2GRAY);
+    cv::resize(image, image,
+                cv::Size(this->resizeDim, this->resizeDim),
+                cv::INTER_AREA);
+    std::vector<cv::KeyPoint> keypoints;
+    surf->detectAndCompute(image, cv::Mat(), keypoints, res);
+    if (res.empty()) {
+        res = cv::Mat::zeros(100, 100, CV_32F);
+    } else {
+        cv::resize(res, res,
+                    cv::Size(100, 100),
+                    cv::INTER_AREA);
+    }
     res = res.reshape(1, 1);
     res.convertTo(res, CV_32F);
     return res;
@@ -62,12 +76,16 @@ void SVMImageComparator::train(cv::Ptr<cv::ml::SVM> model) {
     // Define the path to the directory containing your labeled image pairs
     std::string modelFile = "svm_model.xml";
 
+    bool loaded = false;
     if (std::filesystem::exists(modelFile)) {
         std::cout << "Attempting to load the pre-trained model from " << modelFile << "..." << std::endl;
         auto tempModel = cv::ml::SVM::load(modelFile.c_str());
-        if (tempModel != nullptr) this->model = tempModel;
+        if (tempModel != nullptr) { 
+            this->model = tempModel;
+            loaded = true;
+        }
     } 
-    if (this->model == nullptr) {
+    if (!loaded) {
         std::string datasetPath = "trainingSet";
 
         // Create data structures for features and labels
@@ -127,4 +145,5 @@ void SVMImageComparator::train(cv::Ptr<cv::ml::SVM> model) {
         std::cout << "Saving model..." << std::endl;
         model->save(modelFile);
     }
+    std::cout << "Model loaded" << std::endl;
 }

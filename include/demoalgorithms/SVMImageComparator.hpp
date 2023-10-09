@@ -20,6 +20,8 @@ class SVMImageComparator : public IImageComparator {
         cv::Mat image2;
         cv::Mat result;
         cv::Ptr<cv::ml::SVM> model;
+
+        int resizeDim;
 };
 
 #endif //SVMIMAGECOMPARATOR_HPP
