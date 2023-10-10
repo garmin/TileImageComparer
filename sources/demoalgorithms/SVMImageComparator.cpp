@@ -38,8 +38,7 @@ double SVMImageComparator::compareImages(cv::Mat& image1, cv::Mat& image2) {
     cv::Mat featureVector;
     cv::hconcat(extractFeatures(image1), extractFeatures(image2), featureVector);
     float similarityScore = this->model->predict(featureVector);
-    // this->result = featureVector.reshape(1, 100);
-    this->result = cv::Mat::zeros(this->resizeDim, this->resizeDim, CV_32F);
+    this->result = featureVector;
     return similarityScore;
 }
 
@@ -47,20 +46,22 @@ cv::Ptr<cv::ml::SVM> SVMImageComparator::createModel() {
     cv::Ptr<cv::ml::SVM> model = cv::ml::SVM::create();
     model->setType(cv::ml::SVM::C_SVC);
     model->setKernel(cv::ml::SVM::RBF);
-    model->setTermCriteria(cv::TermCriteria(cv::TermCriteria::MAX_ITER, 100, 1e-6));
+    model->setTermCriteria(cv::TermCriteria(cv::TermCriteria::MAX_ITER, 500, 1e-6));
 
     return model;
 }
 
 cv::Mat SVMImageComparator::extractFeatures(cv::Mat& image) {
-    cv::Ptr<cv::xfeatures2d::SURF> surf = cv::xfeatures2d::SURF::create(400);
+    cv::Ptr<cv::xfeatures2d::SURF> surf = cv::xfeatures2d::SURF::create();
+    cv::Ptr<cv::xfeatures2d::FREAK> freak = cv::xfeatures2d::FREAK::create();
     cv::Mat res;
     cv::cvtColor(image, image, cv::COLOR_BGR2GRAY);
     cv::resize(image, image,
                 cv::Size(this->resizeDim, this->resizeDim),
                 cv::INTER_AREA);
     std::vector<cv::KeyPoint> keypoints;
-    surf->detectAndCompute(image, cv::Mat(), keypoints, res);
+    surf->detect(image, keypoints);
+    freak->compute(image, keypoints, res);
     if (res.empty()) {
         res = cv::Mat::zeros(this->resizeDim, this->resizeDim, CV_32F);
     } else {
