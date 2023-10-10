@@ -24,6 +24,7 @@
 #include "demoalgorithms/CVBlobsImageComparator.hpp"
 #include "demoalgorithms/WhiteLineImageComparator.hpp"
 #include "demoalgorithms/SVMImageComparator.hpp"
+#include "PoliMiImageComparator.hpp"
 
 ComparisonThresholds kDefaultThresholds{ 0.05,    // 5% of the area
                                          0.025};  // 2.5% of the edge
@@ -126,8 +127,13 @@ int main(int argc, char *argv[]) {
     } else if (algorithm == "svm" || algorithm == "SVM" || algorithm == "ml" || algorithm == "ML") {
         comparator = std::make_unique<SVMImageComparator>();
     } else {
-        // Custom Algorithm here
-        comparator = std::make_unique<CPSImageComparator>(kMaxBlobSize, 1, kImageCompareConstant, kDefaultThresholds);
+        // ***** Custom Algorithm here *****
+
+
+        comparator = std::make_unique<PoliMiImageComparator>();
+        
+        
+        // *****  Custom Algorithm end *****
     }
 
     auto start = std::chrono::high_resolution_clock::now();
