@@ -38,7 +38,8 @@ double SVMImageComparator::compareImages(cv::Mat& image1, cv::Mat& image2) {
     cv::Mat featureVector;
     cv::hconcat(extractFeatures(image1), extractFeatures(image2), featureVector);
     float similarityScore = this->model->predict(featureVector);
-    this->result = featureVector.reshape(1, 100);
+    // this->result = featureVector.reshape(1, 100);
+    this->result = cv::Mat::zeros(this->resizeDim, this->resizeDim, CV_32F);
     return similarityScore;
 }
 
@@ -61,10 +62,10 @@ cv::Mat SVMImageComparator::extractFeatures(cv::Mat& image) {
     std::vector<cv::KeyPoint> keypoints;
     surf->detectAndCompute(image, cv::Mat(), keypoints, res);
     if (res.empty()) {
-        res = cv::Mat::zeros(100, 100, CV_32F);
+        res = cv::Mat::zeros(this->resizeDim, this->resizeDim, CV_32F);
     } else {
         cv::resize(res, res,
-                    cv::Size(100, 100),
+                    cv::Size(this->resizeDim, this->resizeDim),
                     cv::INTER_AREA);
     }
     res = res.reshape(1, 1);
