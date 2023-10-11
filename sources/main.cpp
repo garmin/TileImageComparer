@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
     // Command line arguments definition
     argparse::ArgumentParser argParser("Comparer Playground", "0.1");
     argParser.add_argument("--algorithm")
-            .help("Algorithm to be used. Options available: custom, ssim, mse, hist, pixel, psnr, cvblobs, whiteline.")
+            .help("Algorithm to be used. Options available: custom, ssim, mse, hist, pixel, psnr, cvblobs, whiteline, svm.")
             .default_value("custom");
 
     argParser.add_argument("-f1")
@@ -123,7 +123,7 @@ int main(int argc, char *argv[]) {
         comparator = std::make_unique<CVBlobsImageComparator>();
     } else if (algorithm == "line" || algorithm == "whiteline" || algorithm == "lines") {
         comparator = std::make_unique<WhiteLineImageComparator>();
-    } else if (algorithm == "svm" || algorithm == "SVM" || algorithm == "ml" || algorithm == "ML") {
+    } else if (algorithm == "svm" || algorithm == "SVM") {
         comparator = std::make_unique<SVMImageComparator>();
     } else {
         // Custom Algorithm here
