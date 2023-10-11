@@ -84,6 +84,7 @@ set(Source_Files
     "sources/demoalgorithms/CVBlobsImageComparator.cpp"
     "sources/demoalgorithms/WhiteLineImageComparator.cpp"
     "sources/demoalgorithms/SVMImageComparator.cpp"
+    "sources/PoliMiImageComparator.cpp"
 )
 source_group("Source Files" FILES ${Source_Files})
 
