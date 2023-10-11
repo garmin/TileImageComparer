@@ -150,12 +150,11 @@ int main(int argc, char *argv[]) {
 
     std::cout << PrintResult(resultData) << std::endl;
     if (benchmarkMode) {
-        bool groundTruthComparison = CheckResultWithGroundTruth(resultData);
         std::cout.clear();
-        std::cout << PrintCSVResult(resultData) << (groundTruthComparison ? " OK" : " NO") << std::endl;
+        std::cout << PrintCSVResult(resultData) << std::endl;
         std::cout.setstate(std::ios_base::failbit);
 
-        if (groundTruthComparison) return EXIT_SUCCESS;
+        if (!resultData.different) return EXIT_SUCCESS;
         else return EXIT_FAILURE;
     }
 
